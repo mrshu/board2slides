@@ -63,13 +63,14 @@ class BoardSearcher:
         In case there is more than one we go over all found contures and 
         keep only one with 4 points.
         """
-        (cnts, _) = cv.findContours(image, cv.RETR_TREE,
-                                        cv.CHAIN_APPROX_SIMPLE)
+        (cnts, _) = cv.findContours(image,
+                                    cv.RETR_TREE,
+                                    cv.CHAIN_APPROX_SIMPLE)
         cnts = sorted(cnts, key=cv.contourArea, reverse=True)[:10]
         our_cnt = None
         for c in cnts:
             peri = cv.arcLength(c, True)
-            approx = cv.approxPolyDP(c, 0.02 * peri, True)
+            approx = cv.approxPolyDP(c, 0.1 * peri, True)
             if len(approx) == 4:
                 our_cnt = approx
                 break
